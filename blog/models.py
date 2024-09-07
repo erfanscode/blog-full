@@ -12,11 +12,11 @@ class Post(models.Model):
     REJECTED  = 'RJ', 'Rejected'
 
   # relations
-  author      = models.ForgeinKey(User, on_delete=models.CASCADE, related_name='user_posts')
+  author      = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_posts')
   # data fields
   title       = models.CharField(max_length=250)
   description = models.TextField()
-  slug        = models.Slug(max_length=250)
+  slug        = models.SlugField(max_length=250)
   #date
   publish = models.DateTimeField(default=timezone.now)
   create  = models.DateTimeField(auto_now_add=True)
@@ -27,7 +27,7 @@ class Post(models.Model):
   class Meta:
     ordering = ['-publish']
     indexes = [
-      models.index(fields=['-publish'])
+      models.Index(fields=['-publish'])
     ]
 
   def __str__(self):
