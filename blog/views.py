@@ -15,7 +15,7 @@ def post_list(request):
     context = {
         'posts': posts
     }
-    return render(request, "template.html", context)
+    return render(request, "blog/list.html", context)
 
 def post_detail(request, id):
     # This view for showing detail post
@@ -26,4 +26,4 @@ def post_detail(request, id):
     context = {
         'post': post
     }
-    return render(request, "template2.html", context)
+    return render(request, "blog/detail.html", context)
