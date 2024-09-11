@@ -1,3 +1,11 @@
-from django.shortcuts import render
+# View for blog
+from django.http import HttpResponse
 
-# Create your views here.
+def index(request):
+    return HttpResponse("Home Page")
+
+def post_list(request):
+    return HttpResponse("Posts")
+
+def post_detail(request, id):
+    return HttpResponse(f"Post: {id}")
