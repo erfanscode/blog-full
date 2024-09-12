@@ -1,4 +1,5 @@
 from django.db import models
+from django_jalali.db import models as jmodels
 from django.utils import timezone
 from django.contrib.auth.models import User
 
@@ -22,13 +23,14 @@ class Post(models.Model):
     description = models.TextField(verbose_name='توضیخات')
     slug = models.SlugField(max_length=250)
     #date
-    publish = models.DateTimeField(default=timezone.now, verbose_name='تاریخ انتشار')
-    create = models.DateTimeField(auto_now_add=True)
-    update = models.DateTimeField(auto_now=True)
+    publish = jmodels.jDateTimeField(default=timezone.now, verbose_name='تاریخ انتشار')
+    create = jmodels.jDateTimeField(auto_now_add=True)
+    update = jmodels.jDateTimeField(auto_now=True)
     # choice fields
     status = models.CharField(max_length=2, choices=Status.choices, default=Status.DRAFT, verbose_name='وضعیت')
     # call managers
-    objects = models.Manager()
+    # objects = models.Manager()
+    objects = jmodels.jManager()
     published = PublishedManager()
 
     class Meta:

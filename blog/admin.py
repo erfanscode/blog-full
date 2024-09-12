@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django_jalali.admin.filters import JDateFieldListFilter
 # blog models
 from .models import Post
 
@@ -10,7 +11,7 @@ admin.sites.AdminSite.index_title = 'مدیریت وبسایت'
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
   list_display = ['id', 'title', 'author', 'publish', 'status']
-  list_filter = ['author', 'publish', 'status']
+  list_filter = ['author', ('publish', JDateFieldListFilter), 'status']
   search_fields = ['title', 'description']
   list_editable = ['status']
   date_hierarchy = 'publish'
