@@ -1,9 +1,16 @@
 {% extends 'parent/base.html' %}
 {% block title %}Blog{% endblock %}
+
 {% block content %}
-	<h1>List Posts</h1>
+  <div class="blog-container">
+    <h1 class="blog-title">List of Posts</h1>
+
     {% for post in posts %}
-        <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
-        <p>{{ post.description|truncatewords:4 }}</p>
+      <div class="blog-post">
+        <a href="{{ post.get_absolute_url }}" class="post-link">{{ post.title }}</a>
+        <p class="post-description">{{ post.description|truncatewords:4 }}</p>
+      </div>
     {% endfor %}
+
+  </div>
 {% endblock %}
