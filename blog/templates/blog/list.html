@@ -3,7 +3,7 @@
 {% block content %}
 	<h1>List Posts</h1>
     {% for post in posts %}
-        <a href="{% url 'blog:post_detail' post.id %}">{{ post.title }}</a>
+        <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
         <p>{{ post.description|truncatewords:4 }}</p>
     {% endfor %}
 {% endblock %}
