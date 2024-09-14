@@ -3,25 +3,54 @@
 
 {% block content %}
   <div class="blog-container">
+     <p>
+         {% if form.errors %}
+             {% for field in form %}
+                 {% if field.errors %}
+                     {% for error in field.errors %}
+                         {{ error }}
+                     {% endfor %}
+                 {% endif %}
+             {% endfor %}
+         {% endif %}
+     </p>
       <form method="post">
           {% csrf_token %}
           <label for="name">نام</label>
-          <input type="text" name="name" required>
+          <input type="text" name="name"
+                 {% if form.name.value %}
+                     value="{{ form.name.value }}"
+                 {% endif %}
+                 required
+          >
           <br>
           <label for="email">ایمیل</label>
-          <input type="email" name="email">
+          <input type="email" name="email"
+                {% if form.email.value %}
+                    value="{{ form.email.value }}"
+                {% endif %}
+          >
           <br>
           <label for="phone">شماره تماس</label>
-          <input type="text" name="phone" maxlength="11" required>
+          <input type="text" name="phone" maxlength="11"
+                {% if form.phone.value %}
+                    value="{{ form.phone.value }}"
+                {% endif %}
+                 required
+          >
           <br>
           <label for="message">متن پیام</label>
-          <textarea name="message"></textarea>
+          <textarea name="message">
+              {% if form.message.value %}
+                  {{ form.message.value }}
+              {% endif %}
+          </textarea>
           <br>
           <label for="subject">موضوع</label>
           <select name="subject">
-              <option value="پیشنهاد">پیشنهاد</option>
-              <option value="انتقاد">انتقاد</option>
-              <option value="گزارش">گزارش</option>
+              <option value="پیشنهاد" {% if form.subject.value == "پیشنهاد" %}selected{% endif %}>پیشنهاد</option>
+              <option value="انتقاد" {% if form.subject.value == "انتقاد" %}selected{% endif %}>انتقاد</option>
+              <option value="گزارش" {% if form.subject.value == "گزارش" %}selected{% endif %}>گزارش</option>
           </select>
           <br>
           <input type="submit" value="ارسال">
