@@ -12,5 +12,8 @@
       </div>
     {% endfor %}
 
+      {# Pagination #}
+      {% include 'partials/pagination.html' with page=posts %}
+      {# End Pagination #}
   </div>
 {% endblock %}
