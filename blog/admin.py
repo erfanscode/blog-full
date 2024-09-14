@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django_jalali.admin.filters import JDateFieldListFilter
 # blog models
-from .models import Post
+from .models import *
 
 # Django admin panel Farsi
 admin.sites.AdminSite.site_header = 'پنل مدیریت جنگو'
@@ -17,3 +17,8 @@ class PostAdmin(admin.ModelAdmin):
   date_hierarchy = 'publish'
   raw_id_fields = ['author']
   prepopulated_fields = {'slug': ['title']}
+
+
+@admin.register(Ticket)
+class TicketAdmin(admin.ModelAdmin):
+  list_display = ['name', 'email', 'subject']

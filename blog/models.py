@@ -1,3 +1,4 @@
+# Model for blog
 from django.db import models
 from django_jalali.db import models as jmodels
 from django.utils import timezone
@@ -47,3 +48,19 @@ class Post(models.Model):
 
     def get_absolute_url(self):
         return reverse('blog:post_detail', args=[self.id])
+
+
+class Ticket(models.Model):
+    # Model for form ticket
+    message = models.TextField(verbose_name='پیام')
+    name = models.CharField(max_length=120, verbose_name='نام')
+    email = models.EmailField(verbose_name='ایمیل')
+    phone = models.CharField(max_length=11, verbose_name='موبایل')
+    subject = models.CharField(max_length=120, verbose_name='موضوع')
+
+    class Meta:
+        verbose_name = 'تیکت'
+        verbose_name_plural = 'تیکت ها'
+
+    def __str__(self):
+        return self.subject
