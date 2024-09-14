@@ -9,3 +9,5 @@ media
 
 .env
 .idea
+migrations/
+migrations
