@@ -1,4 +1,6 @@
 # Template tags for blog app
+from lib2to3.fixes.fix_input import context
+
 from django import template
 from ..models import Post, Comment
 
@@ -19,3 +21,11 @@ def total_comments():
 def last_post():
     # a tag for last post date
     return Post.published.last().publish
+
+@register.inclusion_tag("partials/latest_posts.html")
+def latest_posts(count=4):
+    l_posts = Post.published.order_by('-publish')[:count]
+    context = {
+        'l_posts': l_posts,
+    }
+    return context
