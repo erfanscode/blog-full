@@ -1,14 +1,13 @@
 # View for blog
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse
 from .models import *
 from .forms import *
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView
 from django.views.decorators.http import require_POST
 
 def index(request):
     # This view for home page
-    return HttpResponse("Home Page")
+    return render(request, 'blog/index.html')
 
 class PostListView(ListView):
     # class for post list
