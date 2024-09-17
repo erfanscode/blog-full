@@ -7,4 +7,26 @@
     <p>{{ post.description|linebreaks }}</p>
     <hr>
     <p>{{ post.publish|jformat:"%Y/%m/%d-%H:%M" }}</p>
+    <hr>
+
+    {#  comments count number  #}
+    {% if comments %}
+        {% with comments.count as cm_count %}
+        <p class="comment-count">
+            {{ cm_count }} کامنت وجود دارد
+        </p>
+        {% endwith %}
+    {% endif %}
+
+    {#  for show comments  #}
+    {% for cm in comments %}
+        {{ cm.body|linebreaks }}<br>
+        {{ cm.name }}
+    {% empty %}
+        <p>کامنتی برای این پست وجود ندارد</p>
+    {% endfor %}
+
+    {#  comment form  #}
+    {% include 'forms/comment.html' %}
+
 {% endblock %}

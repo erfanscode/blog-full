@@ -1,9 +1,10 @@
 # View for blog
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from .models import *
 from .forms import *
 from django.views.generic import ListView, DetailView
+from django.views.decorators.http import require_POST
 
 def index(request):
     # This view for home page
@@ -17,10 +18,21 @@ class PostListView(ListView):
     template_name = 'blog/list.html'
 
 
-class PostDetailView(DetailView):
-    # class for post detail
-    model = Post
-    template_name = 'blog/detail.html'
+def post_detail(request, pk):
+    post = get_object_or_404(Post, id=pk, status=Post.Status.PUBLISHED)
+    comments = post.comments.filter(active=True)
+    form = CommentForm()
+    context = {
+        'post': post,
+        'comments': comments,
+        'form': form
+    }
+    return render(request, 'blog/detail.html', context)
+
+# class PostDetailView(DetailView):
+#     # class for post detail
+#     model = Post
+#     template_name = 'blog/detail.html'
 
 
 def ticket(request):
@@ -40,3 +52,20 @@ def ticket(request):
     else:
         form = TicketForm()
     return render(request, 'forms/ticket.html', {"form": form})
+
+@require_POST
+def post_comment(request, pk):
+    # view for post comments
+    post = get_object_or_404(Post, id=pk, status=Post.Status.PUBLISHED)
+    comment = None
+    form = CommentForm(request.POST)
+    if form.is_valid():
+        comment = form.save(commit=False)
+        comment.post = post
+        comment.save()
+    context = {
+        'post': post,
+        'form': form,
+        'comment': comment
+    }
+    return render(request, 'forms/comment.html', context)

@@ -111,3 +111,8 @@ a {
     margin: 0 5px;
     color: #333;
 }
+
+.comment-count {
+    text-align: left;
+    direction: rtl;
+}

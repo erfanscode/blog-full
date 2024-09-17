@@ -1,6 +1,8 @@
 # Form for blog
 from django import forms
 
+from blog.models import Comment
+
 
 class TicketForm(forms.Form):
     # form for ticket
@@ -22,3 +24,10 @@ class TicketForm(forms.Form):
                 raise forms.ValidationError('شماره تلفن باید عدد باشد')
             else:
                 return phone
+
+
+class CommentForm(forms.ModelForm):
+    # form for post comments
+    class Meta:
+        model = Comment
+        fields = ('name', 'body')
