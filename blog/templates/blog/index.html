@@ -11,4 +11,13 @@
     <hr>
     {% latest_posts 5 %}
 
+    {% most_popular_posts as pop_posts %}
+        <div>
+            <h4>محبوب ترین ها</h4>
+            {% for post in pop_posts %}
+                <br>
+                <a href="{{ post.get_absolute_url }}">{{ post.title }} :{{ post.comments_count }} تعداد کامنت</a>
+            {% endfor %}
+        </div>
+
 {% endblock %}

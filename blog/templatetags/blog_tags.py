@@ -1,7 +1,6 @@
 # Template tags for blog app
-from lib2to3.fixes.fix_input import context
-
 from django import template
+from django.db.models import Count
 from ..models import Post, Comment
 
 register = template.Library()
@@ -21,6 +20,11 @@ def total_comments():
 def last_post():
     # a tag for last post date
     return Post.published.last().publish
+
+@register.simple_tag()
+def most_popular_posts(count=4):
+    # a tag for showing most popular posts using comment number
+    return Post.published.annotate(comments_count=Count('comments')).order_by('-comments_count')[:count]
 
 @register.inclusion_tag("partials/latest_posts.html")
 def latest_posts(count=4):
