@@ -1,7 +1,13 @@
 # Form for blog
 from django import forms
+from blog.models import Comment, Post
 
-from blog.models import Comment
+
+class CreatePostForm(forms.ModelForm):
+    # create post form
+    class Meta:
+        model = Post
+        fields = ['title', 'description', 'slug']
 
 
 class TicketForm(forms.Form):
