@@ -5,6 +5,14 @@ from blog.models import Comment, Post
 
 class CreatePostForm(forms.ModelForm):
     # create post form
+    def clean_description(self):
+        description = self.cleaned_data['description']
+        if description:
+            if len(description) > 10:
+                raise forms.ValidationError("توضیحات نباید از 10 کلمه بیشتر باشد!")
+            else:
+                return description
+
     class Meta:
         model = Post
         fields = ['title', 'description', 'slug']
