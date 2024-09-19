@@ -1,5 +1,4 @@
 {% extends 'parent/base.html' %}
-{% load jformat %}
 {% load blog_tags %}
 {% block title %}Home{% endblock %}
 {% block content %}
@@ -11,8 +10,10 @@
     <p>تعداد کامنت ها:{% total_comments %}</p>
     <p>تاریخ آخرین پست:{% last_post %}</p>
     <hr>
+    {#  show 5 latest posts  #}
     {% latest_posts 5 %}
 
+    {#  show most popular posts  #}
     {% most_popular_posts as pop_posts %}
         <div>
             <h4>محبوب ترین ها</h4>
@@ -20,6 +21,26 @@
                 <br>
                 <a href="{{ post.get_absolute_url }}">{{ post.title }} :{{ post.comments_count }} تعداد کامنت</a>
             {% endfor %}
+        </div>
+
+    {#  show max and min read time post  #}
+    {% get_extreme_reading_time_posts as t_posts %}
+        <div>
+            <h4>کدام پست بیشترین و کدام پست کمترین زمان مطالعه را لازم دارد</h4>
+            {% if t_posts.max_post %}
+                <p>بیشترین زمان مطالعه:
+                    <br>
+                    <a href="{{ t_posts.max_post.get_absolute_url }}">{{ t_posts.max_post.title }}</a>
+                    <span>{{ t_posts.max_post.reading_time }} دقیقه</span>
+                </p>
+            {% endif %}
+            {% if t_posts.min_post %}
+                <p>کمترین زمان مطالعه:
+                    <br>
+                    <a href="{{ t_posts.min_post.get_absolute_url }}">{{ t_posts.min_post.title }}</a>
+                    <span>{{ t_posts.min_post.reading_time }} دقیقه</span>
+                </p>
+            {% endif %}
         </div>
 
 {% endblock %}
