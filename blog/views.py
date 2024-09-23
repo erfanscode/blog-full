@@ -2,6 +2,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import *
 from .forms import *
+from django.db.models import Q
 from django.views.generic import ListView
 from django.views.decorators.http import require_POST
 
@@ -99,9 +100,9 @@ def post_search(request):
         form = SearchForm(data=request.GET)
         if form.is_valid():
             query = form.cleaned_data['query']
-            result1 = Post.published.filter(title__icontains=query)
-            result2 = Post.published.filter(description__icontains=query)
-            results = result1 | result2
+            results = Post.published.filter(
+                Q(title__icontains=query) | Q(description__icontains=query)
+            )
     context = {
         'query': query,
         'results': results
