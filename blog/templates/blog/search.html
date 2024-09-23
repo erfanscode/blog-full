@@ -1,0 +1,17 @@
+{% extends 'parent/base.html' %}
+{% block title %}Post Search{% endblock %}
+
+{% block content %}
+
+    {% if query %}
+        <p>{{ query }} :نتایح برای </p>
+    {% endif %}
+
+    {% for post in results %}
+        <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+        <p>{{ post.description }}</p>
+    {% empty %}
+        <p>نتیجه ای یافت نشد</p>
+    {% endfor %}
+
+{% endblock %}

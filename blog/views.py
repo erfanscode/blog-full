@@ -1,8 +1,5 @@
 # View for blog
-from lib2to3.fixes.fix_input import context
-
 from django.shortcuts import render, redirect, get_object_or_404
-from django.utils import timezone
 from .models import *
 from .forms import *
 from django.views.generic import ListView
@@ -82,7 +79,7 @@ def post_comment(request, pk):
     # view for post comments
     post = get_object_or_404(Post, id=pk, status=Post.Status.PUBLISHED)
     comment = None
-    form = CommentForm(request.POST)
+    form = CommentForm(data=request.POST)
     if form.is_valid():
         comment = form.save(commit=False)
         comment.post = post
@@ -93,3 +90,20 @@ def post_comment(request, pk):
         'comment': comment
     }
     return render(request, 'forms/comment.html', context)
+
+def post_search(request):
+    # view for search posts
+    query = None
+    results = []
+    if 'query' in request.GET:
+        form = SearchForm(data=request.GET)
+        if form.is_valid():
+            query = form.cleaned_data['query']
+            result1 = Post.published.filter(title__icontains=query)
+            result2 = Post.published.filter(description__icontains=query)
+            results = result1 | result2
+    context = {
+        'query': query,
+        'results': results
+    }
+    return render(request, 'blog/search.html', context)

@@ -1,6 +1,5 @@
 # Model for blog
 from django.db import models
-from django.template.defaultfilters import default
 from django_jalali.db import models as jmodels
 from django.utils import timezone
 from django.contrib.auth.models import User
