@@ -4,6 +4,9 @@
 {% block content %}
 	<h1>{{ post.title }}</h1>
     <h4>write by ({{ post.author }})</h4>
+    {% for img in post.images.all %}
+        <img src="{{ img.image_file.url }}" alt="{{ img.title }}">
+    {% endfor %}
     <p>{{ post.description|linebreaks }}</p>
     <hr>
     <p>{{ post.publish|jformat:"%Y/%m/%d-%H:%M" }}</p>
