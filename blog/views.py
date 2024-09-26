@@ -10,24 +10,6 @@ def index(request):
     # This view for home page
     return render(request, 'blog/index.html')
 
-def create_post(request):
-    # view for create post
-    if request.method == 'POST':
-        form = CreatePostForm(request.POST)
-        if form.is_valid():
-            post = form.save(commit=False)
-            post.author = request.user
-            post.create = timezone.now()
-            post.save()
-            return redirect('blog:pre_view', post.pk)
-    else:
-        form = CreatePostForm()
-    context = {
-        'form': form,
-    }
-    return render(request, 'forms/create_post.html', context)
-
-
 
 class PostListView(ListView):
     # class for post list
@@ -52,10 +34,6 @@ def post_detail(request, pk):
 #     # class for post detail
 #     model = Post
 #     template_name = 'blog/detail.html'
-
-def pre_view(request, pk):
-    post = get_object_or_404(Post, id=pk)
-    return render(request, 'blog/pre_view.html', {'post': post})
 
 def ticket(request):
     # view for ticket form
