@@ -37,3 +37,10 @@ class CommentForm(forms.ModelForm):
 class SearchForm(forms.Form):
     # form for search posts
     query = forms.CharField()
+
+
+class CreatePostForm(forms.ModelForm):
+    image = forms.ImageField(label="تصویر")
+    class Meta:
+        model = Post
+        fields = {'title', 'description', 'reading_time'}

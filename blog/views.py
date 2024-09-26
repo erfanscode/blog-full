@@ -96,3 +96,16 @@ def profile(request):
     user = request.user
     posts = Post.published.filter(author=user)
     return render(request, "blog/profile.html", {'posts': posts})
+
+def post_create(request):
+    if request.method == 'POST':
+        form = CreatePostForm(request.POST, request.FILES)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.save()
+            Image.objects.create(image_file=form.cleaned_data['image'], post=post)
+            return redirect('blog:profile')
+    else:
+        form = CreatePostForm()
+    return render(request, 'forms/create_post.html', {"form": form})
