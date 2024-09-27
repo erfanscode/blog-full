@@ -40,7 +40,14 @@ class SearchForm(forms.Form):
 
 
 class CreatePostForm(forms.ModelForm):
+    # form for create post
     image = forms.ImageField(label="تصویر")
     class Meta:
         model = Post
         fields = {'title', 'description', 'reading_time'}
+
+
+class LoginForm(forms.Form):
+    # form for login user
+    username = forms.CharField(max_length=120, required=True)
+    password = forms.CharField(widget=forms.PasswordInput, required=True)

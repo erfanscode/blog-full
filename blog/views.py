@@ -1,10 +1,12 @@
 # View for blog
+from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import *
 from .forms import *
 from django.views.generic import ListView
 from django.views.decorators.http import require_POST
 from django.contrib import messages
+from django.contrib.auth import authenticate, login
 from django.contrib.postgres.search import TrigramSimilarity
 
 def index(request):
@@ -141,3 +143,22 @@ def image_delete(request, pk):
     image = get_object_or_404(Image, id=pk)
     image.delete()
     return redirect('blog:profile')
+
+def user_login(request):
+    # For login user using username and password
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            cd = form.cleaned_data
+            user = authenticate(username=cd['username'], password=cd['password'])
+            if user is not None:
+                if user.is_active:
+                    login(request, user)
+                    return redirect('blog:profile')
+                else:
+                    return HttpResponse('شما نمیتوانید وارد شوید')
+            else:
+                return HttpResponse("شما هنور وارد نشدید")
+    else:
+        form = LoginForm()
+    return render(request, 'forms/login.html', {"form": form})
