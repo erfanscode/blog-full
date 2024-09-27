@@ -4,6 +4,7 @@ from .models import *
 from .forms import *
 from django.views.generic import ListView
 from django.views.decorators.http import require_POST
+from django.contrib import messages
 from django.contrib.postgres.search import TrigramSimilarity
 
 def index(request):
@@ -98,6 +99,7 @@ def profile(request):
     return render(request, "blog/profile.html", {'posts': posts})
 
 def post_create(request):
+    # For create new post
     if request.method == 'POST':
         form = CreatePostForm(request.POST, request.FILES)
         if form.is_valid():
@@ -108,4 +110,13 @@ def post_create(request):
             return redirect('blog:profile')
     else:
         form = CreatePostForm()
-    return render(request, 'forms/create_post.html', {"form": form})
+    return render(request, 'forms/create-post.html', {"form": form})
+
+def post_delete(request, pk):
+    # For delete a post
+    post = get_object_or_404(Post, id=pk)
+    if request.method == 'POST':
+        post.delete()
+        messages.success(request, 'پست مورد نظر حذف شد')
+        return redirect('blog:profile')
+    return render(request, 'forms/delete-post.html', {"post": post})
