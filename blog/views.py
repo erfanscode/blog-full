@@ -120,3 +120,24 @@ def post_delete(request, pk):
         messages.success(request, 'پست مورد نظر حذف شد')
         return redirect('blog:profile')
     return render(request, 'forms/delete-post.html', {"post": post})
+
+def post_edit(request, pk):
+    # For edit a post
+    post = get_object_or_404(Post, id=pk)
+    if request.method == 'POST':
+        form = CreatePostForm(request.POST, request.FILES, instance=post)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.save()
+            Image.objects.create(image_file=form.cleaned_data['image'], post=post)
+            return redirect('blog:profile')
+    else:
+        form = CreatePostForm(instance=post)
+    return render(request, 'forms/create-post.html', {"form": form, 'post': post})
+
+def image_delete(request, pk):
+    # For delete post image when user edit a post
+    image = get_object_or_404(Image, id=pk)
+    image.delete()
+    return redirect('blog:profile')
