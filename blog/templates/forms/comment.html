@@ -1,20 +1,14 @@
-{% extends 'parent/base.html' %}
-{% block title %}post comment{% endblock %}
-{% block content %}
-
-    {% if comment %}
-        <p>کامنت شما با موفقیت ثبت شد.</p>
-        <a href="{{ post.get_absolute_url }}">بازگشت</a>
-    {% else %}
-        <form method="post" action="{% url 'blog:post_comment' post.pk %}">
+ {% if comment %}
+    <p>کامنت شما با موفقیت ثبت شد.</p>
+    <a href="{{ post.get_absolute_url }}">بازگشت</a>
+{% else %}
+    <form method="post" action="{% url 'blog:post_comment' post.pk %}">
         {% csrf_token %}
-            <label for="name">نام</label>
-            <input type="text" name="name">
-            <br>
-            <label for="body">نوشتن نظر</label>
-            <textarea name="body"></textarea>
-            <input type="submit" value="ثبت نظر">
-        </form>
-    {% endif %}
-
-{% endblock %}
+        <label for="name">نام</label>
+        <input type="text" name="name">
+        <br>
+        <label for="body">نوشتن نظر</label>
+        <textarea name="body"></textarea>
+        <input type="submit" value="ثبت نظر">
+    </form>
+{% endif %}
