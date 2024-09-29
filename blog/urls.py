@@ -1,6 +1,7 @@
 # Urls for Blog
 from django.urls import path
 from . import views
+from django.contrib.auth import views as auth_view
 
 app_name = "blog"
 urlpatterns = [
@@ -15,5 +16,6 @@ urlpatterns = [
     path("profile/delete_post/<pk>", views.post_delete, name="post_delete"),
     path("profile/edit_post/<pk>", views.post_edit, name="post_edit"),
     path("profile/delete_image/<pk>", views.image_delete, name="image_delete"),
-    path("login", views.user_login, name="login"),
+    path("login/", auth_view.LoginView.as_view(), name="login"),
+    path("logout/", auth_view.LogoutView.as_view(), name="logout"),
 ]

@@ -1,0 +1,10 @@
+{% extends 'parent/base.html' %}
+{% block title %}Logged out{% endblock %}
+
+{% block content %}
+
+    <h4>خروج با موفقیت انجام شد</h4>
+    <a href="{% url 'blog:login' %}">ورود دوباره</a>
+    <a href="{% url 'blog:post_list' %}">صفحه اصلی</a>
+
+{% endblock %}

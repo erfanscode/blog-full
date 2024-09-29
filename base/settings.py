@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 import os.path
 from pathlib import Path
 
+# from django.contrib.auth.views import LoginView, LogoutView
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -31,13 +33,13 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'blog.apps.BlogConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'blog.apps.BlogConfig',
     'django_jalali',
     'django.contrib.postgres',
 ]
@@ -135,3 +137,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Django resized option
 DJANGORESIZED_DEFAULT_NORMALIZE_ROTATION = False
+
+
+# Login and Logout url
+LOGIN_REDIRECT_URL = '/blog/profile/'
+LOGIN_URL = '/blog/login/'
+LOGOUT_URL = '/blog/logout/'

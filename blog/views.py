@@ -6,7 +6,7 @@ from .forms import *
 from django.views.generic import ListView
 from django.views.decorators.http import require_POST
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
 from django.contrib.postgres.search import TrigramSimilarity
 
 def index(request):
@@ -94,12 +94,14 @@ def post_search(request):
     }
     return render(request, 'blog/search.html', context)
 
+@login_required
 def profile(request):
     # For show author posts
     user = request.user
     posts = Post.published.filter(author=user)
     return render(request, "blog/profile.html", {'posts': posts})
 
+@login_required
 def post_create(request):
     # For create new post
     if request.method == 'POST':
@@ -114,6 +116,7 @@ def post_create(request):
         form = CreatePostForm()
     return render(request, 'forms/create-post.html', {"form": form})
 
+@login_required
 def post_delete(request, pk):
     # For delete a post
     post = get_object_or_404(Post, id=pk)
@@ -123,6 +126,7 @@ def post_delete(request, pk):
         return redirect('blog:profile')
     return render(request, 'forms/delete-post.html', {"post": post})
 
+@login_required
 def post_edit(request, pk):
     # For edit a post
     post = get_object_or_404(Post, id=pk)
@@ -138,27 +142,9 @@ def post_edit(request, pk):
         form = CreatePostForm(instance=post)
     return render(request, 'forms/create-post.html', {"form": form, 'post': post})
 
+@login_required
 def image_delete(request, pk):
     # For delete post image when user edit a post
     image = get_object_or_404(Image, id=pk)
     image.delete()
     return redirect('blog:profile')
-
-def user_login(request):
-    # For login user using username and password
-    if request.method == 'POST':
-        form = LoginForm(request.POST)
-        if form.is_valid():
-            cd = form.cleaned_data
-            user = authenticate(username=cd['username'], password=cd['password'])
-            if user is not None:
-                if user.is_active:
-                    login(request, user)
-                    return redirect('blog:profile')
-                else:
-                    return HttpResponse('شما نمیتوانید وارد شوید')
-            else:
-                return HttpResponse("شما هنور وارد نشدید")
-    else:
-        form = LoginForm()
-    return render(request, 'forms/login.html', {"form": form})
