@@ -5,6 +5,8 @@
 
     <a href="{% url 'blog:post_create' %}">ایجاد پست</a>
     <br>
+    <a href="{% url 'blog:password_change' %}">تغییر رمز عبور</a>
+    <br>
     {#  show messages successfully  #}
     {% if messages %}
         {% for message in messages %}
