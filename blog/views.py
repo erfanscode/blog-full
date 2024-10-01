@@ -148,3 +148,16 @@ def image_delete(request, pk):
     image = get_object_or_404(Image, id=pk)
     image.delete()
     return redirect('blog:profile')
+
+def register(request):
+    # View for registration user
+    if request.method == 'POST':
+        form = UserRegistrationForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.set_password(form.cleaned_data['password'])
+            user.save()
+            return render(request, 'registration/register_done.html', {'user': user})
+    else:
+        form = UserRegistrationForm()
+    return render(request, 'registration/register.html', {'form': form})

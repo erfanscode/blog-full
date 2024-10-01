@@ -1,6 +1,8 @@
 # Form for blog
 from django import forms
-from blog.models import Comment, Post
+from django.core.exceptions import ValidationError
+
+from blog.models import Comment, Post, User
 
 
 
@@ -45,3 +47,19 @@ class CreatePostForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = {'title', 'description', 'reading_time'}
+
+
+class UserRegistrationForm(forms.ModelForm):
+    # form for registration user
+    password = forms.CharField(max_length=20, widget=forms.PasswordInput)
+    password2 = forms.CharField(max_length=20, widget=forms.PasswordInput)
+
+    def clean_password2(self):
+        cd = self.cleaned_data
+        if cd['password'] != cd['password2']:
+            raise ValidationError('رمز عبور ها یکی نیستند!')
+        return cd['password2']
+
+    class Meta:
+        model = User
+        fields = ['username', 'first_name', 'last_name', 'email']
