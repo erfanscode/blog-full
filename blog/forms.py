@@ -2,9 +2,7 @@
 from django import forms
 from django.core.exceptions import ValidationError
 
-from blog.models import Comment, Post, User
-
-
+from blog.models import Comment, Post, User, Account
 
 
 class TicketForm(forms.Form):
@@ -63,3 +61,17 @@ class UserRegistrationForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['username', 'first_name', 'last_name', 'email']
+
+
+class UserEditForm(forms.ModelForm):
+    # form for edit user registration information
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'email']
+
+
+class AccountEditForm(forms.ModelForm):
+    # form for edit account information
+    class Meta:
+        model = Account
+        fields = ['date_of_birth', 'bio', 'photo']
