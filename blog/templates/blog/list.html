@@ -3,7 +3,11 @@
 
 {% block content %}
   <div class="blog-container">
-    <h1 class="blog-title">List of Posts</h1>
+    {% if category %}
+        <h1 class="blog-title">پست های {{ category }}</h1>
+    {% else %}
+        <h1 class="blog-title">تمام پست ها</h1>
+    {% endif %}
 
     {% for post in posts %}
       <div class="blog-post">
@@ -13,8 +17,13 @@
       </div>
     {% endfor %}
 
+      <a href="{% url 'blog:post_list_category' 'تکنولوژی' %}">تکنولوژی</a>
+      <a href="{% url 'blog:post_list_category' 'برنامه نویسی' %}">برنامه نویسی</a>
+      <a href="{% url 'blog:post_list_category' 'آموزشی' %}">آموزشی</a>
+      <a href="{% url 'blog:post_list_category' 'سایر' %}">سایر</a>
+
       {# Pagination #}
-      {% include 'partials/pagination.html' with page=page_obj %}
+      {% include 'partials/pagination.html' with page=posts %}
       {# End Pagination #}
   </div>
 {% endblock %}

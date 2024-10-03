@@ -44,7 +44,7 @@ class CreatePostForm(forms.ModelForm):
     image = forms.ImageField(label="تصویر")
     class Meta:
         model = Post
-        fields = {'title', 'description', 'reading_time'}
+        fields = {'title', 'description', 'reading_time', 'category'}
 
 
 class UserRegistrationForm(forms.ModelForm):

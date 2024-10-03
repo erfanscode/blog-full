@@ -20,6 +20,13 @@ class Post(models.Model):
         PUBLISHED = 'PB', 'Published'
         REJECTED = 'RJ', 'Rejected'
 
+    CATEGORY_CHOICES = (
+        ('تکنولوژی', 'تکنولوژی'),
+        ('برنامه نویسی', 'برنامه نویسی'),
+        ('آموزشی', 'آموزشی'),
+        ('سایر', 'سایر')
+    )
+
     # relations
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_posts', verbose_name='نویسنده')
     # data fields
@@ -33,6 +40,7 @@ class Post(models.Model):
     update = jmodels.jDateTimeField(auto_now=True)
     # choice fields
     status = models.CharField(max_length=2, choices=Status.choices, default=Status.DRAFT, verbose_name='وضعیت')
+    category = models.CharField(max_length=50, choices=CATEGORY_CHOICES, default='سایر')
     # call managers
     # objects = models.Manager()
     objects = jmodels.jManager()

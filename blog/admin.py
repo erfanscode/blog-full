@@ -23,10 +23,10 @@ class CommentInline(admin.TabularInline):
 # show models content in admin panel
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
-  list_display = ['id', 'title', 'author', 'publish', 'status']
+  list_display = ['id', 'title', 'author', 'publish', 'status', 'category']
   list_filter = ['author', ('publish', JDateFieldListFilter), 'status']
   search_fields = ['title', 'description']
-  list_editable = ['status']
+  list_editable = ['status', 'category']
   date_hierarchy = 'publish'
   raw_id_fields = ['author']
   prepopulated_fields = {'slug': ['title']}

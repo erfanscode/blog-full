@@ -1,4 +1,6 @@
 # View for blog
+from lib2to3.fixes.fix_input import context
+
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import *
@@ -8,19 +10,38 @@ from django.views.decorators.http import require_POST
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.postgres.search import TrigramSimilarity
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 def index(request):
     # This view for home page
     return render(request, 'blog/index.html')
 
 
-class PostListView(ListView):
-    # class for post list
-    queryset = Post.published.all()
-    context_object_name = 'posts'
-    paginate_by = 4
-    template_name = 'blog/list.html'
+# class PostListView(ListView):
+#     # class for post list
+#     queryset = Post.published.all()
+#     context_object_name = 'posts'
+#     paginate_by = 4
+#     template_name = 'blog/list.html'
 
+def post_list(request, category=None):
+    if category is not None:
+        posts = Post.published.filter(category=category)
+    else:
+        posts = Post.published.all()
+    paginator = Paginator(posts, 2)
+    page_number = request.GET.get('page', 1)
+    try:
+        posts = paginator.page(page_number)
+    except EmptyPage:
+        posts = paginator.page(paginator.num_pages)
+    except PageNotAnInteger:
+        posts = paginator.page(1)
+    context = {
+        'posts': posts,
+        'category': category,
+    }
+    return render(request, 'blog/list.html', context)
 
 def post_detail(request, pk):
     post = get_object_or_404(Post, id=pk, status=Post.Status.PUBLISHED)
