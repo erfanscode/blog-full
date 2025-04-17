@@ -2,8 +2,6 @@
 
 A full-featured blog platform built with Django, featuring Persian (Jalali) date support and modern content management capabilities.
 
-![Blog Platform](media/readme_screenshot.jpg)
-
 ## Features
 
 - **Content Management System**
